@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block head %}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Get the element by ID
+    var myElement = document.getElementById("return_ico");
+  
+    // Check if the element exists
+    if (myElement) {
+      // Add the "active" class to the element
+      myElement.classList.add("active");
+    } else {
+      console.error("Element with the specified ID not found.");
+    }
+  });
+
+function searchName() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("searchInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("invoiceTable");
+  tr = table.getElementsByTagName("tr");
+
+  for (i = 0; i < tr.length; i++) {
+      // Adjust the index to match the "Medicine Name" column (index 0)
+      td = tr[i].getElementsByTagName("td")[1];
+      if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+          } else {
+              tr[i].style.display = "none";
+          }
+      }
+  }
+}</script>
+{% endblock head %}
+{% block page %}
+<div class=" container-scroller" style="width: 100%;">
+    <!-- partial -->
+    <div class="content-wrapper">
+<h3>Invoice History </h3>
+  <div style="margin-left:30%">  <input type="text" id="searchInput" onkeyup="searchName()" placeholder="Search by Name or Phone"> 
+</div>
+
+  <div style="max-height: 70vh; display:block; overflow-y:auto">
+  <table class="table" id="invoiceTable">
+    <thead>
+      <tr>
+        <th>Invoice No</th>
+        <th>Name</th>
+        <th>Medicine</th>
+        <th>Quantity</th>
+        <th>Unit</th>
+        <th>Batch_id</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in return_hist %}
+      <tr>
+        <td><a href="{% url 'invoice_relocate' i.inv_number.invoice_no.id %}">{{i.inv_number.invoice_no.id}}</a></td>
+        <td>{{i.inv_number.invoice_no.pos_order.customer_id.name}}-{{i.inv_number.invoice_no.pos_order.customer_id.phone}}</td>
+        <td>{{i.returned_item}}</td>
+        <td>{{i.quantity}}</td>
+        <td>{{i.unit}}</td>
+        <td>{{i.batch_id}}</td>
+        <td>{{i.total_price_order}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table></div>  
+
+      
+    </div></div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // Get today's date
+        var today = new Date();
+    
+        // Format date as "YYYY-MM-DD"
+        var formattedDate = today.toISOString().split('T')[0];
+    
+        // Set the default value of the date input field
+        document.getElementById("dateInput").value = formattedDate;
+      });
+    </script>
+{% endblock page %}

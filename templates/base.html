@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Pharmacy Management</title>
+        <link rel="stylesheet" href="/static/node_modules/font-awesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="/static/node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <link rel="stylesheet" href="/static/node_modules/flag-icon-css/css/flag-icon.min.css" />
+        <link rel="stylesheet" href="/static/css/style.css" />
+        <link rel="shortcut icon" href="/static/images/favicon.png" />
+        
+        {% block head %}
+            
+        {% endblock head %}
+            
+</head>
+      
+<body>
+     <!-- partial:partials/_navbar.html -->
+     <nav class="navbar navbar-default col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div class="bg-white text-center navbar-brand-wrapper">
+          <a class="navbar-brand brand-logo" href="/">Pharmacy</a>
+          <a class="navbar-brand brand-logo-mini" href="/"><img src="/static/images/logo_star_mini.jpg" alt=""></a>
+        </div>
+        <div class="navbar-menu-wrapper d-flex align-items-center">
+          <button class="navbar-toggler navbar-toggler d-none d-lg-block navbar-dark align-self-center mr-3" type="button" data-toggle="minimize" onclick="toggleBodyClass()">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <ul class="navbar-nav ml-lg-auto d-flex align-items-center flex-row">
+           
+          </ul>
+          <button class="navbar-toggler navbar-dark navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+      </nav>
+  
+      <!-- partial -->
+      <div class="container-fluid">
+        <div class="row row-offcanvas row-offcanvas-right">
+          <!-- partial:partials/_sidebar.html -->
+          <nav class="bg-white sidebar sidebar-offcanvas" id="sidebar">
+            <div class="user-info">
+              <img src="/static/images/med.png" alt="">
+              <p class="name">Pharmacy</p>
+              <p class="designation">Management</p>
+              <span class="online"></span>
+            </div>
+            <ul class="nav">
+              <li class="nav-item" id="dash_ico">
+                <a class="nav-link" href="/">
+                  <img src="/static/images/icons/1.png" alt="">
+                  <span class="menu-title">Dashboard</span>
+                </a>
+              </li>
+              <li class="nav-item" id="wid_ico">
+                <a class="nav-link" href="/medicine">
+                  <img src="/static/images/icons/2.png" alt="">
+                  <span class="menu-title">Medicine</span>
+                </a>
+              </li>
+              <li class="nav-item" id='pos_ico'>
+                <a class="nav-link" href="/pos">
+                  <img src="/static/images/icons/005-forms.png" alt="">
+                  <span class="menu-title">POS</span>
+                </a>
+              </li>
+              <li class="nav-item" id="purchase_ico">
+                <a class="nav-link" href="/purchase">
+                  <img src="/static/images/icons/4.png" alt="">
+                  <span class="menu-title">Purchase</span>
+                </a>
+              </li>
+              <li class="nav-item" id="purchase_return_ico">
+                <a class="nav-link" href="/return_purchase">
+                  <img src="/static/images/icons/4.png" alt="">
+                  <span class="menu-title">Purchase Return</span>
+                </a>
+              </li>
+              <li class="nav-item" id="stocks_ico">
+                <a class="nav-link" href="/stocks">
+                  <img src="/static/images/icons/5.png" alt="">
+                  <span class="menu-title">Stocks</span>
+                </a>
+              </li>
+              <li class="nav-item" id="supplier_ico">
+                <a class="nav-link" href="/supplier">
+                  <img src="/static/images/icons/6.png" alt="">
+                  <span class="menu-title">Supplier</span>
+                </a>
+              </li>
+              <li class="nav-item" id="return_ico">
+                <a class="nav-link" href="/return">
+                  <img src="/static/images/icons/6.png" alt="">
+                  <span class="menu-title">Invoice & Return</span>
+                </a>
+              </li>
+              {% comment %} <li class="nav-item" id="tax_ico">
+                <a class="nav-link" href="/tax_setting">
+                  <img src="/static/images/icons/7.png" alt="">
+                  <span class="menu-title">Tax Setting</span>
+                </a>
+              </li> {% endcomment %}
+              {% comment %} <li class="nav-item">
+                <a class="nav-link" href="pages/ui-elements/typography.html">
+                  <img src="/static/images/icons/8.png" alt="">
+                  <span class="menu-title">Human Resource</span>
+                </a>
+              </li> {% endcomment %}
+              {% comment %} <li class="nav-item" id="acc_ico">
+                <a class="nav-link" data-toggle="collapse" href="#sample-pages" aria-expanded="false" aria-controls="sample-pages">
+                  <img src="/static/images/icons/9.png" alt="">
+                  <span class="menu-title">Accountss<i class="fa fa-sort-down"></i></span>
+                </a>
+                <div class="collapse" id="sample-pages">
+                  <ul class="nav flex-column sub-menu">
+                    <li class="nav-item">
+                      <a class="nav-link" href="pages/samples/blank_page.html">
+                        Reports
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/customer">
+                        Customer
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li> {% endcomment %}
+              <li class="nav-item" id="acc_ico">
+                <a class="nav-link" href="/accounts">
+                  <img src="/static/images/icons/7.png" alt="">
+                  <span class="menu-title">Accounts</span>
+                </a>
+              </li>
+              {% comment %} <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <img src="/static/images/icons/10.png" alt="">
+                  <span class="menu-title">Settings</span>
+                </a>
+              </li> {% endcomment %}
+            </ul>
+            <footer style=" position: absolute;
+            bottom: 50px;
+            width: 100%;
+            background-color: #ddd;
+            padding: 10px;">
+            <div class="container-fluid clearfix" style="font-family: sans-serif; ">
+              <span class="float-center">
+                  <a href="https://www.linkedin.com/in/ritik-sinha-7468a716a/">Developed by Ritik Sinha | Codigo Aldea</a> &copy; 2024
+              </span>
+            </div>
+          </footer>
+          </nav>
+  
+     
+    
+    {% block page %}
+        
+    {% endblock page %}
+        
+    <!-- partial:partials/_footer.html -->
+    </div>
+    <script>
+      function toggleBodyClass() {
+          // Get the body element
+          var body = document.body;
+
+          // Add the 'minimize' class to the body
+          body.classList.toggle('sidebar-icon-only');
+      }
+  </script>
+    <script src="/static/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/static/node_modules/popper.js/dist/umd/popper.min.js"></script>
+    <script src="/static/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/static/node_modules/chart.js/dist/Chart.min.js"></script>
+    <!-- <script src="/static/node_modules/perfect-scrollbar/dist/js/perfect-scrollbar.jquery.js"></script>  -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5NXz9eVnyJOA81wimI8WYE08kW_JMe8g&callback=initMap" async defer></script>
+    <script src="/static/js/off-canvas.js"></script>
+    <script src="/static/js/hoverable-collapse.js"></script>
+    <!-- <script src="/static/js/misc.js"></script> -->
+    <script src="/static/js/chart.js"></script>
+    <script src="/static/js/maps.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    
+  </body>
+  
+  </html>
+  

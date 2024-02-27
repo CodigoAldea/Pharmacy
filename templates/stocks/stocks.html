@@ -1,0 +1,242 @@
+{% extends 'base.html' %}
+{% block head %}
+<script>
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Get the element by ID
+    var myElement = document.getElementById("stocks_ico");
+  
+    // Check if the element exists
+    if (myElement) {
+      // Add the "active" class to the element
+      myElement.classList.add("active");
+    } else {
+      console.error("Element with the specified ID not found.");
+    }
+  });
+function searchMedicine() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("searchInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("medicineTable");
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 0; i < tr.length; i++) {
+        // Adjust the index to match the "Medicine Name" column (index 0)
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+}
+</script>
+
+{% endblock head %}
+{% block page %}
+<div class=" container-scroller" style="width: 100%; height:auto">
+    <!-- partial -->
+    <div class="content-wrapper">
+      <div class="row">
+      <div class="col">
+      <h3 class="page-heading mb-4">Expired</h3>
+      <div style="max-height: 400px; display:block; overflow-y:auto;">
+      <table class="table">
+        <thead>
+          <tr><th>
+            Medicine Name
+          </th>
+          <th>
+            Batch Id
+          </th>
+          <th>
+            Last Purchase ID
+          </th>
+          <th>
+            Expiry
+          </th>
+          <th>
+            Quantity of Boxes
+          </th>
+          <th>
+            Quantity of Strips
+          </th>
+          <th>
+            Quantity of Pieces
+          </th>
+          <th>
+            Entry Date
+          </th></tr>
+        </thead>
+        <tbody >
+          {% for medicines in expired %}
+            
+          
+          <tr>
+            <td>
+              {{medicines.medicine_name.name}}
+            </td>
+            <td>
+              {{medicines.batch_id}}
+            </td>
+            <td>
+              {{medicines.last_purchase}}
+            </td>
+            <td>
+              {{medicines.expiry_date}}
+            </td>
+            <td>
+              {{medicines.quantity}}
+            </td>
+            <td>
+              {{medicines.strips}}
+            </td>
+            <td>
+              {{medicines.pieces}}
+            </td>
+            <td>
+              {{medicines.entry_date}}
+            </td>
+          </tr>
+          {% endfor %}
+            
+        </tbody>
+      </table>
+    </div><br></div>
+    <div class="col"><h3 class="page-heading mb-4">Stocks to Purchase</h3>
+      <div style="max-height: 400px; display:block; overflow-y:auto">
+            <table class="table">
+              <thead>
+                <tr><th>
+                  Medicine Name
+                </th>
+                <th>
+                  Batch Id
+                </th>
+                <th>
+                  Last Purchase ID
+                </th>
+                <th>
+                  Expiry
+                </th>
+                <th>
+                  Quantity of Boxes
+                </th>
+                <th>
+                  Quantity of Strips
+                </th>
+                <th>
+                  Quantity of Pieces
+                </th>
+                <th>
+                  Entry Date
+                </th></tr>
+              </thead>
+              <tbody>
+                {% for medicines in less %}
+                  
+                
+                <tr>
+                  <td>
+                    {{medicines.medicine_name.name}}
+                  </td>
+                  <td>
+                    {{medicines.batch_id}}
+                  </td>
+                  <td>
+                    {{medicines.last_purchase}}
+                  </td>
+                  <td>
+                    {{medicines.expiry_date}}
+                  </td>
+                  <td>
+                    {{medicines.quantity}}
+                  </td>
+                  <td>
+                    {{medicines.strips}}
+                  </td>
+                  <td>
+                    {{medicines.pieces}}
+                  </td>
+                  <td>
+                    {{medicines.entry_date}}
+                  </td>
+                </tr>
+                {% endfor %}
+                  
+              </tbody>
+            </table></div></div></div>
+<h3 class="page-heading mb-4">Stocks <input type="text" id="searchInput" onkeyup="searchMedicine()" placeholder="Search for medicine"></h3>
+<!-- Input field for search -->
+
+
+<div style="max-height: 400px; display:block; overflow-y:auto">
+      <table id="medicineTable" class=" table" >
+        <thead>
+          <tr><th>
+            Medicine Name
+          </th>
+          <th>
+            Batch Id
+          </th>
+          <th>
+            Last Purchase ID
+          </th>
+          <th>
+            Expiry
+          </th>
+          <th>
+            Quantity of Boxes
+          </th>
+          <th>
+            Quantity of Strips
+          </th>
+          <th>
+            Quantity of Pieces
+          </th>
+          <th>
+            Entry Date
+          </th></tr>
+        </thead>
+        <tbody 
+          {% for medicines in stock %} 
+          <tr>
+            <td>
+              {{medicines.medicine_name.name}}
+            </td>
+            <td>
+              {{medicines.batch_id}}
+            </td>
+            <td>
+              {{medicines.last_purchase}}
+            </td>
+            <td>
+              {{medicines.expiry_date}}
+            </td>
+            <td>
+              {{medicines.quantity}}
+            </td>
+            <td>
+              {{medicines.strips}}
+            </td>
+            <td>
+              {{medicines.pieces}}
+            </td>
+            <td>
+              {{medicines.entry_date}}
+            </td>
+          </tr>
+          {% endfor %}
+            
+        </tbody>
+      </table></div>
+
+
+
+    </div></div></div>
+{% endblock page %}
+    

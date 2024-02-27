@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Get the element by ID
+    var myElement = document.getElementById("purchase_ico");
+  
+    // Check if the element exists
+    if (myElement) {
+      // Add the "active" class to the element
+      myElement.classList.add("active");
+    } else {
+      console.error("Element with the specified ID not found.");
+    }
+  });
+  function searchMedicine() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("searchInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("purchaseTable");
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 0; i < tr.length; i++) {
+        // Adjust the index to match the "Medicine Name" column (index 0)
+        td = tr[i].getElementsByTagName("td")[2];
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+}</script>
+{% endblock head %}
+    
+{% block page %}
+<div class=" container-scroller" style="width: 100%; height:auto">
+    <!-- partial -->
+    <div class="content-wrapper">
+      <h3 class="page-heading mb-4">Purchase History <input type="text" id="searchInput" onkeyup="searchMedicine()" placeholder="Search for medicine"></h3>
+      <div style="max-height: 70vh; display:block; overflow-y:auto">
+      <table class="table" id="purchaseTable">
+        <thead>
+          <tr><th>unique_id</th>
+            <th>supplier</th>
+           <th> medicine_name</th>
+            <th>quantity</th>
+           <th> batch_id</th>
+           <th> expiry</th>
+           <th> entry</th>
+          <th>  box_size</th>
+          <th>  box_cp</th>
+          <th>  box_sp</th>
+          <th>  tabs_strip</th>
+          <th>  strip_cp</th>
+         <th>   strip_sp</th>
+           <th> tabs_cp</th>
+           <th> tabs_sp</th>
+          </tr>
+          </thead>
+          <tbody>
+            {% for i in purchase %}
+            <tr>
+              <td>{{i.unique_id}}</td>
+              <td>{{i.supplier}}</td>
+              <td>{{i.medicine_name}}</td>
+              <td>{{i.quantity}}</td>
+              <td>{{i.batch_id}}</td>
+              <td>{{i.expiry}}</td>
+              <td>{{i.entry}}</td>
+              <td>{{i.box_size}}</td>
+              <td>{{i.box_cp}}</td>
+              <td>{{i.box_sp}}</td>
+              <td>{{i.tabs_strip}}</td>
+              <td>{{i.strip_cp}}</td>
+              <td>{{i.strip_sp}}</td>
+              <td>{{i.tabs_cp}}</td>
+              <td>{{i.tabs_sp}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+      </table></div>
+      
+    </div></div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // Get today's date
+        var today = new Date();
+    
+        // Format date as "YYYY-MM-DD"
+        var formattedDate = today.toISOString().split('T')[0];
+    
+        // Set the default value of the date input field
+        document.getElementById("dateInput").value = formattedDate;
+      });
+    </script>
+{% endblock page %}
+    

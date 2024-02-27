@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Get the element by ID
+    var myElement = document.getElementById("purchase_ico");
+  
+    // Check if the element exists
+    if (myElement) {
+      // Add the "active" class to the element
+      myElement.classList.add("active");
+    } else {
+      console.error("Element with the specified ID not found.");
+    }
+  });</script>
+{% endblock head %}
+    
+{% block page %}
+<div class=" container-scroller" style="width: 100%; height:auto">
+    <!-- partial -->
+    <div class="content-wrapper">
+      <h3 class="page-heading mb-4">Purchase</h3>
+      <h4 style="text-align: center;">Import File <a href="{% url 'import_file' %}" class="btn btn-primary">Click Here</a></h4>
+      <form class="forms-sample" method="get">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="exampleInputEmail2">Medicine Name</label>
+          <input class="form-control p-input" type="text" list="datalistOptions1" id="exampleInputEmail2" placeholder="Type to search..." name="name" >
+          <datalist id="datalistOptions1">
+              {% for i in medicine %}
+              <option value="{{i.name}}">
+              {% endfor %}
+          </datalist>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Supplier Name</label>
+          <input class="form-control p-input" type="text" list="datalistOptions2" id="supplier" placeholder="Type to search..." name="supplier" >
+          <datalist id="datalistOptions2">
+              {% for i in suppliers %}
+              <option value="{{i.name}}">
+              {% endfor %}
+          </datalist>
+        </div>
+        <div class="form-group">
+          <label for="type">Type</label>
+          <input id="type" type="text" class="form-control p-input" id="strength01" placeholder="" name="type">
+        </div>
+        <div class="form-group">
+          <label for="strength">strength</label>
+          <input id="strength" type="text" class="form-control p-input" id="strength01" placeholder="" name="strength">
+        </div>
+        <div class="form-group">
+          <label for="generic">Generic Name</label>
+          <input id="generic" type="text" class="form-control p-input" id="strength01" placeholder="" name="generic">
+        </div>
+        <div class="form-group">
+          <label for="Manufacturer01">Manufacturer</label>
+          <input id="Manufacturer01" type="text" class="form-control p-input" id="strength01" placeholder="" name="quantity">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">batch_id</label>
+          <input class="form-control p-input" type="text" list="datalistOptions3" id="batch" placeholder="Type to search..." name="batch_id" >
+          <datalist id="datalistOptions3">
+              {% for i in batches %}
+              <option value="{{i.batch_id}}">
+              {% endfor %}
+          </datalist>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Quantity</label>
+          <input type="text" class="form-control p-input" id="strength01" placeholder="" name="quantity">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Expiry</label>
+          <input type="date" class="form-control p-input" id="dateInput" placeholder="" name="expiry">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">box size</label>
+          <input type="text" class="form-control p-input" id="strength01" placeholder="" name="box_size">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Box Cost</label>
+          <input type="text" class="form-control p-input" id="strength01" placeholder="" name="box_cost">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Box Sell</label>
+          <input type="text" class="form-control p-input" id="strength01" placeholder="" name="box_sell">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Tabs Strip</label>
+          <input type="text" class="form-control p-input" id="strength01" placeholder="" name="tabs_strip">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Strip Cost</label>
+          <input type="text" class="form-control p-input" id="strength01" placeholder="" name="strip_cost">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Strip Sell</label>
+          <input type="text" class="form-control p-input" id="strength01" placeholder="" name="strip_sell">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Piece Cost</label>
+          <input type="text" class="form-control p-input" id="strength01" placeholder="" name="tabs_cost">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Piece Sell</label>
+          <input type="text" class="form-control p-input" id="strength01" placeholder="" name="tabs_sell">
+        </div>
+        <div class="form-group">
+          <br>
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Submit</button>
+        </div>
+      </form>
+      <h3>Recent Purchases  <a href="{% url 'purchase_history' %}" class="btn btn-primary">View All Purchases</a></h3>
+      <table class="table">
+        <thead>
+          <tr><th>unique_id</th>
+            <th>supplier</th>
+           <th> medicine_name</th>
+            <th>quantity</th>
+           <th> batch_id</th>
+           <th> expiry</th>
+           <th> entry</th>
+          <th>  box_size</th>
+          <th>  box_cp</th>
+          <th>  box_sp</th>
+          <th>  tabs_strip</th>
+          <th>  strip_cp</th>
+         <th>   strip_sp</th>
+           <th> tabs_cp</th>
+           <th> tabs_sp</th>
+          </tr>
+          </thead>
+          <tbody>
+            {% for i in purchase %}
+            <tr>
+              <td>{{i.unique_id}}</td>
+              <td>{{i.supplier}}</td>
+              <td>{{i.medicine_name}}</td>
+              <td>{{i.quantity}}</td>
+              <td>{{i.batch_id}}</td>
+              <td>{{i.expiry}}</td>
+              <td>{{i.entry}}</td>
+              <td>{{i.box_size}}</td>
+              <td>{{i.box_cp}}</td>
+              <td>{{i.box_sp}}</td>
+              <td>{{i.tabs_strip}}</td>
+              <td>{{i.strip_cp}}</td>
+              <td>{{i.strip_sp}}</td>
+              <td>{{i.tabs_cp}}</td>
+              <td>{{i.tabs_sp}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+      </table>
+      
+      
+    </div></div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // Get today's date
+        var today = new Date();
+    
+        // Format date as "YYYY-MM-DD"
+        var formattedDate = today.toISOString().split('T')[0];
+    
+        // Set the default value of the date input field
+        document.getElementById("dateInput").value = formattedDate;
+      });
+    </script>
+{% endblock page %}
+    

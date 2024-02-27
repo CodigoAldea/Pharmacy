@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block head %}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Get the element by ID
+    var myElement = document.getElementById("acc_ico");
+  
+    // Check if the element exists
+    if (myElement) {
+      // Add the "active" class to the element
+      myElement.classList.add("active");
+    } else {
+      console.error("Element with the specified ID not found.");
+    }
+  });</script>
+{% endblock head %}
+{% block page %}
+
+<div class=" container-scroller" style="width: 100%;">
+    <!-- partial -->
+    <div class="content-wrapper">
+      <h3 class="page-heading mb-4">Customers</h3>
+      
+      {% if cust_obj %}
+      <div style="margin: 10px;">
+        <a href="{% url 'customer' %}" class="btn btn-primary"> Go Back</a>
+      </div>
+      <div style="margin: 10px;">
+        <a href="{% url 'accounts_home' %}" class="btn btn-warning"> Go Back to Accounts</a>
+      </div>
+      <table class="table">
+        <thead>
+          <tr><th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Address</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for customers in cust_obj %}
+          <tr>
+            <td>{{customers.name}}</td>
+            <td>{{customers.email}}</td>
+            <td>{{customers.phone}}</td>
+            <td>{{customers.address}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      
+        {% else %}
+      <div>
+        <form action="" method="post" style="text-align: center;">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn btn-primary" style="margin: 10px; width: 20%">Submit</button>
+          <a href="{% url 'accounts_home' %}" class="btn btn-warning" style="width: 20%;"> Go Back to Accounts</a>
+        </form>
+        <div style="margin: 10px;">
+          
+        </div>
+      </div>   
+      <table class="table">
+        <thead>
+          <tr><th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Address</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for customers in customer %}
+          <tr>
+            <td>{{customers.name}}</td>
+            <td>{{customers.email}}</td>
+            <td>{{customers.phone}}</td>
+            <td>{{customers.address}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
+    </div></div>
+{% endblock page %}
+    

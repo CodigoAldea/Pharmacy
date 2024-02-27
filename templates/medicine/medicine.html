@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Get the element by ID
+    var myElement = document.getElementById("wid_ico");
+  
+    // Check if the element exists
+    if (myElement) {
+      // Add the "active" class to the element
+      myElement.classList.add("active");
+    } else {
+      console.error("Element with the specified ID not found.");
+    }
+  });
+  function searchMedicine() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("searchInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("medicineTable");
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 0; i < tr.length; i++) {
+        // Adjust the index to match the "Medicine Name" column (index 0)
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+}</script>
+{% endblock head %}
+    
+{% block page %}
+<div class=" container-scroller" style="width: 100%;">
+    <!-- partial -->
+    <div class="content-wrapper">
+      <h3 class="page-heading mb-4">Medicine</h3>
+      <form class="forms-sample" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="exampleInputEmail1">Medicine Name</label>
+          <input type="text" class="form-control p-input" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Name" name="name">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Strength</label>
+          <input type="text" class="form-control p-input" id="strength01" placeholder="Strength" name="strength">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Generic Name</label>
+          <input type="text" class="form-control p-input" id="genericname01" placeholder="generic Name" name="generic">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Medicine Type</label>
+          <input class="form-control p-input" type="text" list="datalistOptions1" id="exampleInputEmail2" placeholder="Type to search..." name="type" >
+            <datalist id="datalistOptions1">
+                
+                {% for i in medicine_type %}
+                <option value="{{i.type_name}}">
+                {% endfor %}
+            </datalist>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Manufacturer</label>
+          <input class="form-control p-input" type="text" list="datalistOptions2" id="exampleInputEmail2" placeholder="Type to search..." name="manufacturer" >
+            <datalist id="datalistOptions2">
+                
+                {% for i in manufac_det%}
+                <option value="{{i.manufac_name}}">
+                {% endfor %}
+            </datalist>
+        </div>
+        <div class="form-group"><br>
+          
+        </div>
+      
+      <button type="submit" class="btn btn-primary" style="width: 100%;">Submit</button>
+    </form>
+      <br><br><br>
+      <div style="max-height: 50vh; display:block; overflow-y:auto">
+        <input type="text" id="searchInput" onkeyup="searchMedicine()" placeholder="Search for medicine">
+        </div>
+        <table class="table" id="medicineTable">
+          <thead>
+            <tr><th>
+              Medicine Name
+            </th>
+            <th>
+              Medicine type
+            </th>
+            <th>
+              Manufacturer
+            </th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            {% for medicines in medicine %}
+              
+            
+            <tr>
+              <td>
+                {{medicines.name}}
+              </td>
+              <td>
+                {{medicines.med_type}}
+              </td>
+              <td>
+                {{medicines.manufacturer}}
+              </td>
+              
+            </tr>
+            {% endfor %}
+              
+          </tbody>
+        </table>
+
+    </div></div>
+{% endblock page %}
+    

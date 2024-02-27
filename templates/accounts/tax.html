@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block head %}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Get the element by ID
+    var myElement = document.getElementById("tax_ico");
+  
+    // Check if the element exists
+    if (myElement) {
+      // Add the "active" class to the element
+      myElement.classList.add("active");
+    } else {
+      console.error("Element with the specified ID not found.");
+    }
+  });</script>
+{% endblock head %}
+{% block page %}
+
+<div class=" container-scroller" style="width: 100%;">
+    <!-- partial -->
+    <div class="content-wrapper">
+      <h3 class="page-heading mb-4">Tax Setting</h3>
+      
+    </div></div>
+{% endblock page %}
+    

@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% block head %}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Get the element by ID
+    var myElement = document.getElementById("purchase_return_ico");
+  
+    // Check if the element exists
+    if (myElement) {
+      // Add the "active" class to the element
+      myElement.classList.add("active");
+    } else {
+      console.error("Element with the specified ID not found.");
+    }
+  });</script>
+{% endblock head %}
+{% block page %}
+<div class=" container-scroller" style="width: 100%;">
+    <!-- partial -->
+    <div class="content-wrapper">
+      <h3 class="page-heading mb-4">Purchase Return </h3>
+  <div>
+  <form class="forms-sample" method="post" style="flex-direction: column;">
+
+    {% csrf_token %}
+    {{ form.as_p }}
+    <datalist id="datalistOptions2">
+        {% for i in medicines %}
+        <option value="{{i.medicine_name.name}}">
+        {% endfor %}
+    </datalist>
+    <datalist id="datalistOptions3">
+        {% for i in medicines %}
+        <option value="{{i.batch_id.batch_id}}">
+        {% endfor %}
+    </datalist>
+    <div>
+        <button type="submit" class="btn btn-primary" style="margin:10px;width: 100%;">Submit</button>
+      </div>
+</form></div>
+
+{% if stock_sts %}
+    
+
+    
+<div>
+  <h3 style="text-align: center;">Stock Status</h3>
+  <div style="max-height: 70vh; display:block; overflow-y:auto">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Stock Id</th>
+        <th>Name</th>
+        <th>Expiry</th>
+        <th>Batch Id</th>
+        <th>Quantity</th>
+        <th>unit</th>
+        <th>Remove</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in stock_sts %}
+      <tr>
+        <td>{{i.id}}</td>
+        <td>{{i.medicine_name}}</td>
+        <td>{{i.expiry_date}}</td>
+        <td>{{i.batch_id}}</td>
+        
+        {% if i.quantity > 0 %}
+        <td>{{i.quantity}}</td>
+        <td>box</td>
+        {% else %}
+        <td>{{i.strips}}</td>
+        <td>strips</td>
+        {% endif %}
+            
+        
+        <td><a class="btn btn-danger" href="{% url 'delete_stock' i.id %}">Returned</a></td>
+        
+      </tr>
+      {% endfor %}
+    </tbody>
+    </thead>
+  </table></div>  
+
+      
+    </div>{% endif %}
+    
+    {% if return_hist %}
+        
+
+        
+    <div>
+        <h3 style="text-align: center;">Returned History</h3>
+        <div style="max-height: 70vh; display:block; overflow-y:auto">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Return Id</th>
+              <th>Stock Id </th>
+              <th>Name</th>
+              <th>Expiry</th>
+              <th>Batch Id</th>
+              <th>Quantity</th>
+              <th>unit</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in return_hist %}
+            <tr>
+              <td>{{i.id}}</td>
+              <td>{{i.last_purchase_id}}</td>
+              <td>{{i.medicine_name}}</td>
+              <td>{{i.batch_id.expiry}}</td>
+              <td>{{i.batch_id}}</td>
+              <td>{{i.quantity}}</td>
+              <td>{{i.unit}}</td>
+              
+            </tr>
+            {% endfor %}
+          </tbody>
+          </thead>
+        </table></div>      {% endif %}
+      
+            
+          </div></div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // Get today's date
+        var today = new Date();
+    
+        // Format date as "YYYY-MM-DD"
+        var formattedDate = today.toISOString().split('T')[0];
+    
+        // Set the default value of the date input field
+        document.getElementById("dateInput").value = formattedDate;
+      });
+    </script>
+{% endblock page %}
+    

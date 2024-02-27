@@ -1,0 +1,234 @@
+{% extends 'base.html' %}
+{% block head %}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Get the element by ID
+    var myElement = document.getElementById("return_ico");
+  
+    // Check if the element exists
+    if (myElement) {
+      // Add the "active" class to the element
+      myElement.classList.add("active");
+    } else {
+      console.error("Element with the specified ID not found.");
+    }
+  });
+  function searchMedicine() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("searchInput2");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("invoiceTable");
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 0; i < tr.length; i++) {
+        // Adjust the index to match the "Medicine Name" column (index 0)
+        td = tr[i].getElementsByTagName("td")[3];
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+};
+function searchName() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("searchInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("invoiceTable");
+  tr = table.getElementsByTagName("tr");
+
+  for (i = 0; i < tr.length; i++) {
+      // Adjust the index to match the "Medicine Name" column (index 0)
+      td = tr[i].getElementsByTagName("td")[2];
+      if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+          } else {
+              tr[i].style.display = "none";
+          }
+      }
+  }
+}</script>
+{% endblock head %}
+{% block page %}
+<div class=" container-scroller" style="width: 100%;">
+    <!-- partial -->
+    <div class="content-wrapper">
+      <h3 class="page-heading mb-4">Invoice & Return POS</h3>
+      
+    
+    {% if inv_id %}
+    <div style="padding: 25px; text-align: center">
+      Invoice no.{{inv_id}} <br>
+    <a class="btn btn-info" href="{% url 'pdf_view' %}" target="_blank" style="width: 20%;">View Invoice</a>
+    <a class="btn btn-info"  href="{% url 'pdf_download' %}" style="width: 20%;">Download Invoice</a>
+  </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Medicine Name</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Unit</th>
+          <th scope="col">Batch</th>
+          <th scope="col">Total</th>
+  
+        </tr>
+      </thead>
+      <tbody>
+          <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for i in invoices %}
+        <tr> 
+
+        <td>       
+          {{i.medicine_name}} </td>
+        <td>{{i.quantity}}</td>
+        <td>{{i.unit}}</td>
+        <td>{{i.batch_id}}</td>
+        <td>Rs{{i.total_price}}</td>       
+        
+        </tr>
+        {% endfor %}
+      
+  
+  </tbody></table>  
+  <h3 style="text-align: end">total amount-Rs {{cust_inv.Total_Price}}</h3>
+  
+  {% if  return_invoices%}
+  <h3>Returned Medicines</h3>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Medicine Name</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Unit</th>
+        <th scope="col">Batch</th>
+        <th scope="col">Total</th>
+        <th scope="col">Date</th>
+
+      </tr>
+    </thead>
+    <tbody>
+        <form action="" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% for i in return_invoices %}
+      <tr> 
+
+      <td>       
+        {{i.returned_item.name}} </td>
+      <td>{{i.quantity}}</td>
+      <td>{{i.unit}}</td>
+      <td>{{i.batch_id}}</td>
+      <td>Rs{{i.total_price_order}}</td>
+      <td>{{i.date}}</td>
+
+      
+      
+      </tr>
+      {% endfor %}
+    
+
+</tbody></table>
+<h3 style="text-align: end">total amount to refund-Rs {{invoice_total_return}}</h3> 
+  {% endif %}
+    
+  <div class="form-group">
+    <label for="exampleDataList" class="form-label">Medicine</label>
+    <input class="form-control" type="text" list="datalistOptions2" id="exampleDataList" placeholder="Type to search..." name='medicine' required>
+    <datalist id="datalistOptions2">
+        
+        {% for i in medicines %}
+        <option value="{{i.name}}">
+        {% endfor %}
+    </datalist>
+</div>
+  <div class="form-group">
+    <label for="return_qnty">Medicine Batch Id</label>
+  <input type="text" class="form-control p-input" id="return_batch" placeholder="" name="batch_id" required></div>
+<div class="form-group">
+  <label for="return_qnty">Return Quantity</label>
+<input type="number" class="form-control p-input" id="return_qnty" placeholder="" name="return" required></div>
+  <div class="form-group">
+    <select class="form-select" aria-label="Default select example" name="unit">
+      <option selected >Open this select menu</option>
+      <option value="piece">piece</option>
+      <option value="strip">strip</option>
+      <option value="box">box</option>
+    </select>
+  </div>
+
+  <div class="form-group" style="text-align: center;">
+    <button type="submit" class="btn btn-danger" style="width: 20%">Make Changes</button>
+  </div>
+  </form>
+  <form action="" method="get">
+  <div class="form-group" style="text-align: center; ">
+    <input type="hidden" name="new" value='new'>
+    <button type="submit" class="btn btn-primary" style="width: 20%">Go Back</button>
+  </div></form>
+  {% else %}
+  <div>
+  <form class="forms-sample" method="post" style="flex-direction: column;">
+
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div style="text-align: center">
+        <button type="submit" class="btn btn-primary" style="width: 20%;">Submit</button>
+      </div>
+</form></div>
+<div>
+  <br>
+  <h3>Invoice History </h3>
+  <h4 style="text-align: end;"><a href="{% url 'return_details' %}" class="btn btn-warning">View Return History</a></h4>
+  <div style="margin-left:30%">  <input type="text" id="searchInput" onkeyup="searchName()" placeholder="Search by Name ">  <input style="margin-left: 2%;" type="text" id="searchInput2" onkeyup="searchMedicine()" placeholder="Search by phone number"></div>
+
+  <div style="max-height: 70vh; display:block; overflow-y:auto">
+  <table class="table" id="invoiceTable">
+    <thead>
+      <tr>
+        <th>Invoice No</th>
+        <th>Date</th>
+        <th>Name</th>
+        <th>phone</th>
+        <th>Medicines</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in history_inv %}
+      <tr>
+        <td><a href="{% url 'invoice_relocate' i.id %}">{{i.pos_order.order_no}}</a></td>
+        <td>{{i.pos_order.date_entry}}</td>
+        <td>{{i.pos_order.customer_id.name}}</td>
+        <td>{{i.pos_order.customer_id.phone}}</td>
+        <td>{% for j in i.med_name %}
+          {{j}} , 
+          {% endfor %}
+        </td>
+        <td>{{i.Total_Price}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    </thead>
+  </table></div>  
+   {% endif %}
+      
+    </div></div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // Get today's date
+        var today = new Date();
+    
+        // Format date as "YYYY-MM-DD"
+        var formattedDate = today.toISOString().split('T')[0];
+    
+        // Set the default value of the date input field
+        document.getElementById("dateInput").value = formattedDate;
+      });
+    </script>
+{% endblock page %}
+    

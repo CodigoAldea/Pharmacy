@@ -1,0 +1,120 @@
+{% load static %}
+<html>
+<head>
+	<style>
+		@page {
+			size: a4 portrait;
+			@frame header_frame {           /* Static Frame */
+				-pdf-frame-content: header_content;
+				left: 50pt; width: 512pt; top: 50pt; height: 40pt;
+			}
+			@frame content_frame {          /* Content Frame */
+				left: 50pt; width: 512pt; top: 90pt; height: 632pt;
+			}
+			@frame footer_frame {           /* Another static Frame */
+				-pdf-frame-content: footer_content;
+				left: 50pt; width: 512pt; top: 772pt; height: 20pt;
+			}
+		}
+		.pdf_table tr td{
+			text-align: center;
+		}
+	</style>
+
+	</head>
+	
+	<body>
+		<!-- Content for Static Frame 'header_frame' -->
+		<div id="header_content">
+			<h3> Pharmacy Shop Name</h3>
+		</div>
+	
+		<!-- Content for Static Frame 'footer_frame' -->
+		<div id="footer_content">(c) - page <pdf:pagenumber>
+			of <pdf:pagecount>
+		</div>
+	
+		<!-- HTML Content -->
+		<table>
+				<tr>
+					<td>{{address}}</td>
+					<td>{{phone}}</td>
+				</tr>
+				<tr>
+					<td>{{city}} {{state}},</td>
+					<td>{{email}}</td>
+				</tr>
+				<tr>
+					<td>{{zipcode}}</td>
+					<td>{{website}}</td>
+				</tr>
+		</table>
+	
+		<hr>
+		<h3>Invoice No: {{cust_id}}</h3>
+		<h2>{{total.pos_order.customer_id.name}}, {{total.pos_order.customer_id.phone}}</h2>
+		
+		
+		<table class="pdf_table">
+			<tr>
+	 
+				<th>Product</th>
+				<th>Price</th>
+				<th>Quantity</th>
+				<th>Unit</th>
+				<th>Total</th>
+			</tr>
+			
+			{% for orders in invoices %}
+			<tr>
+			<td>{{orders.medicine_name}}</td>
+			<td>Rs{{orders.price_per}}</td>
+			<td>{{orders.quantity}}</td>
+			<td>{{orders.unit}}</td>
+			<td>Rs{{orders.total_price}}</td>
+		</tr>
+			{% endfor %}
+				
+			
+		</table>
+	
+		<hr>
+	
+		<p><strong>Total: {{total.Total_Price}}</strong></p>
+		<p><strong>Payment Method-- Paytm</strong></p>
+		
+		
+		{% if return_invoices %}
+		<h3>Returned Orders</h3>	
+	
+	<table class="pdf_table">
+		<tr>
+ 
+			<th>Product</th>
+			<th>Price</th>
+			<th>Quantity</th>
+			<th>Unit</th>
+			<th>Total</th>
+		</tr>
+		
+		{% for orders in return_invoices %}
+		<tr>
+		<td>{{orders.returned_item}}</td>
+		<td>Rs{{orders.order_items_price}}</td>
+		<td>{{orders.quantity}}</td>
+		<td>{{orders.unit}}</td>
+		<td>Rs{{orders.total_price_order}}</td>
+	</tr>
+		{% endfor %}
+			
+		
+	</table>
+	<hr>
+	<p ><strong>Total Amount to Refund: {{invoice_total_return}}</strong></p>
+	<hr>
+	<p><strong>Updated Paid Amount: {{updated_balance}}</strong></p>
+		{% endif %}
+			
+		
+	</body>
+	</html>

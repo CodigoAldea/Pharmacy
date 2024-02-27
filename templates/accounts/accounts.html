@@ -1,0 +1,267 @@
+{% extends 'base.html' %}
+{% block head %}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Get the element by ID
+    var myElement = document.getElementById("acc_ico");
+  
+    // Check if the element exists
+    if (myElement) {
+      // Add the "active" class to the element
+      myElement.classList.add("active");
+    } else {
+      console.error("Element with the specified ID not found.");
+    }
+  });</script>
+{% endblock head %}
+{% block page %}
+<div class=" container-scroller" style="width: 100%;">
+    <!-- partial -->
+    <div class="content-wrapper">
+      <h3 class="page-heading mb-4">Accounts</h3>
+
+    
+    
+    {% if invoices_cust %}
+    <h3 style="text-align: center;">Invoice History of {{cust_obj.name}}, {{cust_obj.phone}}</h3>
+    <div>
+      <a href="{% url 'accounts_home' %}" class="btn btn-primary"> Go Back</a>
+      <h4 style="text-align: center; background-color: white">Total Spend: Rs.{{total_spend}}/-</h4>
+    </div>
+    <div style="max-height: 70vh; display:block; overflow-y:auto">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Invoice No</th>
+          <th>Date</th>
+          <th>Name</th>
+          <th>phone</th>
+          <th>Medicines</th>
+          <th>Expiry</th>
+          <th>Quantity</th>
+          <th>Unit</th>
+          <th> Unit Price</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in invoices_cust %}
+        <tr>
+          <td><a href="{% url 'invoice_relocate' i.id %">{{i.pos_order.order_no}}</a></td>
+          <td>{{i.pos_order.date_entry}}</td>
+          <td>{{i.pos_order.customer_id.name}}</td>
+          <td>{{i.pos_order.customer_id.phone}}</td>
+          <td>
+            <ul class="list-group">
+            {% for j in i.med_name %}
+            <li class="list-group-item" style="margin-bottom: 0;">{{j}}</li>
+            {% endfor %}
+            </ul>
+          </td>
+          <td>
+            <ul class="list-group">
+            {% for j in i.items_expiry %}
+            <li class="list-group-item" style="margin-bottom: 0;">{{j}}</li>
+            {% endfor %}
+            </ul>
+          </td>
+          <td>
+            <ul class="list-group">
+            {% for j in i.order_items %}
+            <li class="list-group-item" style="margin-bottom: 0;">{{j}}</li>
+            {% endfor %}
+            </ul>
+          </td>
+          <td>
+            <ul class="list-group">
+            {% for j in i.order_unit %}
+            <li class="list-group-item" style="margin-bottom: 0;">{{j}}</li>
+            {% endfor %}
+            </ul>
+          </td>
+          <td>
+            <ul class="list-group">
+            {% for j in i.items_price %}
+            <li class="list-group-item" style="margin-bottom: 0;">{{j}}</li>
+            {% endfor %}
+            </ul>
+          </td>
+          <td>{{i.Total_Price}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      </thead>
+    </table>
+    <div style="max-height: 70vh; display:block; overflow-y:auto">
+    <h3>Return History</h3>
+  <table class="table" id="invoiceTable">
+    <thead>
+      <tr>
+        <th>Invoice No</th>
+        <th>Date</th>
+        <th>Name</th>
+        <th>Medicine</th>
+        <th>Quantity</th>
+        <th>Unit</th>
+        <th>Batch_id</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in return_hist %}
+      <tr>
+        <td><a href="{% url 'invoice_relocate' i.inv_number.invoice_no.id %}">{{i.inv_number.invoice_no.pos_order.order_no}}</a></td>
+        <td>{{i.inv_number.invoice_no.pos_order.date_entry}}</td>
+        <td>{{i.inv_number.invoice_no.pos_order.customer_id.name}}-{{i.inv_number.invoice_no.pos_order.customer_id.phone}}</td>
+        <td>{{i.returned_item}}</td>
+        <td>{{i.quantity}}</td>
+        <td>{{i.unit}}</td>
+        <td>{{i.batch_id}}</td>
+        <td>{{i.total_price_order}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table> 
+</div> <div style="max-height: 70vh; display:block; overflow-y:auto"></div>  
+   
+    {% else %}
+    
+    {% if not date_sort %}
+      
+    
+      
+    <div style="text-align: center;"><a href="{% url 'customer' %}" class="btn btn-warning">View All Customers</a></div>
+    <div>
+      <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="row">
+          <div class="col">Start Date{{date_form.date_start}}</div>
+          <div class="col">End Date{{date_form.date_end}}</div>
+        </div>
+        <br>
+        <div style="text-align: center;">
+        <button type="submit" class="btn btn-primary" style="width: 20%">Submit</button>
+      </div>
+      </form>
+    </div>   
+    {% else %}
+    <a href="{% url 'accounts_home' %}" class="btn btn-primary"> Go Back</a>
+    <br>
+    <div style="text-align: center;"><a class="btn btn-info" href="{% url 'pdf_view_account' %}" target="_blank" style="width: 20%;">View Statement</a>
+      <a class="btn btn-info" href="{% url 'pdf_download_account' %}" target="_blank" style="width: 20%;">Download Statement</a>
+    </div>
+    <br>
+    <h3 style="text-align: center;">Total Spends: Rs.{{date_sort}}/-</h3>
+    {% endif %}
+  <h3 >Invoice History</h3>
+  <div style="max-height: 65vh; display:block; overflow-y:auto">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Invoice No</th>
+        <th>Date</th>
+        <th>Name</th>
+        <th>phone</th>
+        <th>Medicines</th>
+        <th>Expiry</th>
+        <th>Quantity</th>
+        <th>Unit</th>
+        <th> Unit Price</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in invoices %}
+      <tr>
+        <td><a href="{% url 'invoice_relocate' i.id %}">{{i.pos_order.order_no}}</a></td>
+        <td>{{i.pos_order.date_entry}}</td>
+        <td>{{i.pos_order.customer_id.name}}</td>
+        <td>{{i.pos_order.customer_id.phone}}</td>
+        <td>
+          <ul class="list-group">
+          {% for j in i.med_name %}
+          <li class="list-group-item" style="margin-bottom: 0;">{{j}}</li>
+          {% endfor %}
+          </ul>
+        </td>
+        <td>
+          <ul class="list-group">
+          {% for j in i.items_expiry %}
+          <li class="list-group-item" style="margin-bottom: 0;">{{j}}</li>
+          {% endfor %}
+          </ul>
+        </td>
+        <td>
+          <ul class="list-group">
+          {% for j in i.order_items %}
+          <li class="list-group-item" style="margin-bottom: 0;">{{j}}</li>
+          {% endfor %}
+          </ul>
+        </td>
+        <td>
+          <ul class="list-group">
+          {% for j in i.order_unit %}
+          <li class="list-group-item" style="margin-bottom: 0;">{{j}}</li>
+          {% endfor %}
+          </ul>
+        </td>
+        <td>
+          <ul class="list-group">
+          {% for j in i.items_price %}
+          <li class="list-group-item" style="margin-bottom: 0;">{{j}}</li>
+          {% endfor %}
+          </ul>
+        </td>
+        <td>{{i.Total_Price}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    </thead>
+  </table><div style="max-height: 70vh; display:block; overflow-y:auto"></div></div>
+  <h3>Return History</h3>
+  <div style="max-height: 70vh; display:block; overflow-y:auto">
+  <table class="table" id="invoiceTable">
+    <thead>
+      <tr>
+        <th>Invoice No</th>
+        <th>Name</th>
+        <th>Medicine</th>
+        <th>Quantity</th>
+        <th>Unit</th>
+        <th>Batch_id</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in return_hist %}
+      <tr>
+        <td><a href="{% url 'invoice_relocate' i.inv_number.invoice_no.id %}">{{i.inv_number.invoice_no.pos_order.order_no}}</a></td>
+        <td>{{i.inv_number.invoice_no.pos_order.customer_id.name}}-{{i.inv_number.invoice_no.pos_order.customer_id.phone}}</td>
+        <td>{{i.returned_item}}</td>
+        <td>{{i.quantity}}</td>
+        <td>{{i.unit}}</td>
+        <td>{{i.batch_id}}</td>
+        <td>{{i.total_price_order}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>  </div>
+  {% endif %}
+
+      
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // Get today's date
+        var today = new Date();
+    
+        // Format date as "YYYY-MM-DD"
+        var formattedDate = today.toISOString().split('T')[0];
+    
+        // Set the default value of the date input field
+        document.getElementById("dateInput").value = formattedDate;
+      });
+    </script>
+{% endblock page %}
+    

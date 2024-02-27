@@ -1,0 +1,47 @@
+
+{% extends 'base.html' %}
+
+{% block head %}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Get the element by ID
+    var myElement = document.getElementById("purchase_ico");
+  
+    // Check if the element exists
+    if (myElement) {
+      // Add the "active" class to the element
+      myElement.classList.add("active");
+    } else {
+      console.error("Element with the specified ID not found.");
+    }
+  });</script>
+{% endblock head %}
+    
+{% block page %}
+<div class=" container-scroller" style="width: 100%; height:auto">
+    <!-- partial -->
+    <div class="content-wrapper">
+      <h2>Import Data</h2>
+      <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+  
+          <input type="file" name='my_file'>
+          <button type="submit" class='btn btn-primary'>Import</button> 
+          <br><a href="{% url 'purchase_home' %}" class="btn btn-primary">Go Back</a>
+      </form>
+      
+    </div></div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // Get today's date
+        var today = new Date();
+    
+        // Format date as "YYYY-MM-DD"
+        var formattedDate = today.toISOString().split('T')[0];
+    
+        // Set the default value of the date input field
+        document.getElementById("dateInput").value = formattedDate;
+      });
+    </script>
+{% endblock page %}
+    
