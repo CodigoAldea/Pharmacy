@@ -1,66 +1,59 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<script>
-  function fetchData() {
-    const searchField = document.getElementById("searchField").value;
-    fetch(`/fetch-data-from-database?phone=${searchField}`)
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById("name").value = data.name;
-            document.getElementById("email").value = data.email;
-            document.getElementById("address").value = data.address;
-            // Add autofill logic for other form fields
-        })
-        .catch(error => console.error("Error fetching data:", error));
-}
-document.addEventListener("DOMContentLoaded", function() {
-  fetchData();
-  const searchField = document.getElementById("searchField");
-  searchField.addEventListener("input", fetchData);
-});
-
-
-
-document.addEventListener("DOMContentLoaded", function() {
-    // Get the element by ID
-    var myElement = document.getElementById("pos_ico");
-  
-    // Check if the element exists
-    if (myElement) {
-      // Add the "active" class to the element
-      myElement.classList.add("active");
-    } else {
-      console.error("Element with the specified ID not found.");
+  <script>
+    function fetchData() {
+      const searchField = document.getElementById("searchField").value;
+      fetch(`/fetch-data-from-database?phone=${searchField}`)
+          .then(response => response.json())
+          .then(data => {
+              document.getElementById("name").value = data.name;
+              document.getElementById("email").value = data.email;
+              document.getElementById("address").value = data.address;
+              // Add autofill logic for other form fields
+          })
+          .catch(error => console.error("Error fetching data:", error));
     }
-  });
-</script>
+    document.addEventListener("DOMContentLoaded", function() {
+      fetchData();
+      const searchField = document.getElementById("searchField");
+      searchField.addEventListener("input", fetchData);
+    });
+    document.addEventListener("DOMContentLoaded", function() {
+        // Get the element by ID
+        var myElement = document.getElementById("pos_ico");
+      
+        // Check if the element exists
+        if (myElement) {
+          // Add the "active" class to the element
+          myElement.classList.add("active");
+        } else {
+          console.error("Element with the specified ID not found.");
+        }
+    });
+  </script>
 {% endblock head %}
     
 {% block page %}
-<div class=" container-scroller" style="width: 100%;">
+  <div class=" container-scroller" style="width: 100%;">
     <!-- partial -->
     <div class="content-wrapper">
-      <h3 class="page-heading mb-4">POS 
+      <h3 class="page-heading mb-4">POS </h3>
+      {% comment %} button {% endcomment %}
         <form action="" method="get">
           <div class="form-group">
             <input type="hidden" name="new" value='new'>
-            <button type="submit" class="btn btn-warning" style=" 
-            height: 100%;
-            width: 100%;
-        ">New Entry</button>
-          </div></form>
-      </h3>
+            <button type="submit" class="btn btn-warning" style="height: 100%;width: 100%;">New Entry</button>
+          </div>
+        </form>
+      
       
       {% if messages %}
-        
-      
-      <div class="alert alert-danger" role="alert" style="font-size: larger; text-align: center;" >
-      
-      {% for msg in messages %}
-        {{msg}}
-      {% endfor %}    
-      </div>
+        <div class="alert alert-danger" role="alert" style="font-size: larger; text-align: center;" >
+          {% for msg in messages %}
+            {{msg}}
+          {% endfor %}    
+        </div>
 
       {% endif %}
       <form class="forms-sample" method="post">
@@ -150,10 +143,7 @@ document.addEventListener("DOMContentLoaded", function() {
           </select>
         </div>
         <div class="form-group" >
-          <button type="submit" class="btn btn-primary" style=" 
-          height: 100%;
-          width: 100%;
-      ">Submit</button>
+          <button type="submit" class="btn btn-primary" style="height: 100%;width: 100%;">Submit</button>
         </div>
       </form>
       {% if inv_id %}

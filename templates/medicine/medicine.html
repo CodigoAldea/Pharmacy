@@ -2,38 +2,39 @@
 
 {% block head %}
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    // Get the element by ID
-    var myElement = document.getElementById("wid_ico");
-  
-    // Check if the element exists
-    if (myElement) {
-      // Add the "active" class to the element
-      myElement.classList.add("active");
-    } else {
-      console.error("Element with the specified ID not found.");
-    }
-  });
-  function searchMedicine() {
-    var input, filter, table, tr, td, i, txtValue;
-    input = document.getElementById("searchInput");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("medicineTable");
-    tr = table.getElementsByTagName("tr");
+  document.addEventListener("DOMContentLoaded", function() {
+      // Get the element by ID
+      var myElement = document.getElementById("wid_ico");
+    
+      // Check if the element exists
+      if (myElement) {
+        // Add the "active" class to the element
+        myElement.classList.add("active");
+      } else {
+        console.error("Element with the specified ID not found.");
+      }
+    });
+    function searchMedicine() {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("searchInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("medicineTable");
+      tr = table.getElementsByTagName("tr");
 
-    for (i = 0; i < tr.length; i++) {
-        // Adjust the index to match the "Medicine Name" column (index 0)
-        td = tr[i].getElementsByTagName("td")[0];
-        if (td) {
-            txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
-            } else {
-                tr[i].style.display = "none";
-            }
-        }
-    }
-}</script>
+      for (i = 0; i < tr.length; i++) {
+          // Adjust the index to match the "Medicine Name" column (index 0)
+          td = tr[i].getElementsByTagName("td")[0];
+          if (td) {
+              txtValue = td.textContent || td.innerText;
+              if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                  tr[i].style.display = "";
+              } else {
+                  tr[i].style.display = "none";
+              }
+          }
+      }
+  }
+</script>
 {% endblock head %}
     
 {% block page %}
@@ -41,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function() {
     <!-- partial -->
     <div class="content-wrapper">
       <h3 class="page-heading mb-4">Medicine</h3>
-      <form class="forms-sample" method="post">
+      <form class="forms-sample mb-4" method="post">
         {% csrf_token %}
         <div class="form-group">
           <label for="exampleInputEmail1">Medicine Name</label>
@@ -75,16 +76,14 @@ document.addEventListener("DOMContentLoaded", function() {
                 {% endfor %}
             </datalist>
         </div>
-        <div class="form-group"><br>
-          
+        <div class="form-group d-flex justify-content-center align-items-center" >
+          <button type="submit" class="btn btn-primary btn-lg mt-4" style="width: 100%;">Submit</button>
         </div>
-      
-      <button type="submit" class="btn btn-primary" style="width: 100%;">Submit</button>
     </form>
-      <br><br><br>
-      <div style="max-height: 50vh; display:block; overflow-y:auto">
+      {% comment %} <br><br><br> {% endcomment %}
+      <div class="mb-3" style="max-height: 50vh; display:block; overflow-y:auto">
         <input type="text" id="searchInput" onkeyup="searchMedicine()" placeholder="Search for medicine">
-        </div>
+      </div>
         <table class="table" id="medicineTable">
           <thead>
             <tr><th>

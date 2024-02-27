@@ -19,8 +19,9 @@
 </head>
       
 <body>
+    {% comment %} <div style="height : 100vh;"> {% endcomment %}
      <!-- partial:partials/_navbar.html -->
-     <nav class="navbar navbar-default col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <nav class="navbar navbar-default col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="bg-white text-center navbar-brand-wrapper">
           <a class="navbar-brand brand-logo" href="/">Pharmacy</a>
           <a class="navbar-brand brand-logo-mini" href="/"><img src="/static/images/logo_star_mini.jpg" alt=""></a>
@@ -42,7 +43,7 @@
       <div class="container-fluid">
         <div class="row row-offcanvas row-offcanvas-right">
           <!-- partial:partials/_sidebar.html -->
-          <nav class="bg-white sidebar sidebar-offcanvas" id="sidebar">
+          <nav class="bg-white sidebar sidebar-offcanvas" id="sidebar" style="position : fixed;">
             <div class="user-info">
               <img src="/static/images/med.png" alt="">
               <p class="name">Pharmacy</p>
@@ -143,27 +144,19 @@
                 </a>
               </li> {% endcomment %}
             </ul>
-            <footer style=" position: absolute;
-            bottom: 50px;
-            width: 100%;
-            background-color: #ddd;
-            padding: 10px;">
-            <div class="container-fluid clearfix" style="font-family: sans-serif; ">
-              <span class="float-center">
-                  <a href="https://www.linkedin.com/in/ritik-sinha-7468a716a/">Developed by Ritik Sinha | Codigo Aldea</a> &copy; 2024
-              </span>
-            </div>
-          </footer>
+            <footer style=" position: absolute;bottom: 50px; width: 100%; background-color: #ddd; padding: 10px;">
+              <div class="container-fluid clearfix" style="font-family: sans-serif; ">
+                <span class="float-center">
+                  Developed by<a href="https://www.linkedin.com/in/ritik-sinha-7468a716a/"> Ritik Sinha </a> | Codigo Aldea &copy; 2024
+                </span>
+              </div>
+           </footer>
           </nav>
-  
-     
-    
-    {% block page %}
-        
-    {% endblock page %}
-        
-    <!-- partial:partials/_footer.html -->
-    </div>
+          {% block page %}
+              
+          {% endblock page %}
+      </div>
+    {% comment %} </div> {% endcomment %}
     <script>
       function toggleBodyClass() {
           // Get the body element
@@ -172,7 +165,7 @@
           // Add the 'minimize' class to the body
           body.classList.toggle('sidebar-icon-only');
       }
-  </script>
+    </script>
     <script src="/static/node_modules/jquery/dist/jquery.min.js"></script>
     <script src="/static/node_modules/popper.js/dist/umd/popper.min.js"></script>
     <script src="/static/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>

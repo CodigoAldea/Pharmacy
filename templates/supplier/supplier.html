@@ -38,18 +38,18 @@ document.addEventListener("DOMContentLoaded", function() {
 <div class=" container-scroller" style="width: 100%; height:auto">
     <!-- partial -->
     <div class="content-wrapper">
-<h3 class="page-heading mb-4">Supplier</h3>
-<form class="forms-sample" method="post">
+  <h3 class="page-heading mb-4">Supplier</h3>
+  <form class="forms-sample" method="post">
 
-    {% csrf_token %}
-    {{ form.as_p }}
-    <div class="form" style="text-align: center;width:100%">
-        <button type="submit" class="btn btn-primary"  style="width: 20%;">Submit</button>
-      </div>
-</form>
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="form" style="text-align: center;width:100%">
+          <button type="submit" class="btn btn-primary"  style="width: 20%;">Submit</button>
+        </div>
+  </form>
 <div style="max-height: 70vh; display:block; overflow-y:auto">
   <input type="text" id="searchInput" onkeyup="searchName()" placeholder="Search by Name ">
-<table class="table" id="supplierTable">
+<table class="table mt-3" id="supplierTable">
     <thead>
       <tr><th>
         Supplier Name
