@@ -43,7 +43,7 @@
       <div class="container-fluid">
         <div class="row row-offcanvas row-offcanvas-right">
           <!-- partial:partials/_sidebar.html -->
-          <nav class="bg-white sidebar sidebar-offcanvas" id="sidebar" style="position : fixed;">
+          <nav class="bg-white sidebar sidebar-offcanvas" id="sidebar">
             <div class="user-info">
               <img src="/static/images/med.png" alt="">
               <p class="name">Pharmacy</p>
@@ -99,52 +99,16 @@
                   <span class="menu-title">Invoice & Return</span>
                 </a>
               </li>
-              {% comment %} <li class="nav-item" id="tax_ico">
-                <a class="nav-link" href="/tax_setting">
-                  <img src="/static/images/icons/7.png" alt="">
-                  <span class="menu-title">Tax Setting</span>
-                </a>
-              </li> {% endcomment %}
-              {% comment %} <li class="nav-item">
-                <a class="nav-link" href="pages/ui-elements/typography.html">
-                  <img src="/static/images/icons/8.png" alt="">
-                  <span class="menu-title">Human Resource</span>
-                </a>
-              </li> {% endcomment %}
-              {% comment %} <li class="nav-item" id="acc_ico">
-                <a class="nav-link" data-toggle="collapse" href="#sample-pages" aria-expanded="false" aria-controls="sample-pages">
-                  <img src="/static/images/icons/9.png" alt="">
-                  <span class="menu-title">Accountss<i class="fa fa-sort-down"></i></span>
-                </a>
-                <div class="collapse" id="sample-pages">
-                  <ul class="nav flex-column sub-menu">
-                    <li class="nav-item">
-                      <a class="nav-link" href="pages/samples/blank_page.html">
-                        Reports
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="/customer">
-                        Customer
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </li> {% endcomment %}
+             
               <li class="nav-item" id="acc_ico">
                 <a class="nav-link" href="/accounts">
                   <img src="/static/images/icons/7.png" alt="">
                   <span class="menu-title">Accounts</span>
                 </a>
               </li>
-              {% comment %} <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <img src="/static/images/icons/10.png" alt="">
-                  <span class="menu-title">Settings</span>
-                </a>
-              </li> {% endcomment %}
             </ul>
-            <footer style=" position: absolute;bottom: 50px; width: 100%; background-color: #ddd; padding: 10px;">
+            <footer style=" position: fixed; bottom: 0; width: inherit; background-color: #ddd; padding: 10px;">
+            {% comment %} <footer class="d-flex justify-content-end align-items-center mt-auto" style="background-color: #ddd; padding: 10px;"> {% endcomment %}
               <div class="container-fluid clearfix" style="font-family: sans-serif; ">
                 <span class="float-center">
                   Developed by<a href="https://www.linkedin.com/in/ritik-sinha-7468a716a/"> Ritik Sinha </a> | Codigo Aldea &copy; 2024
@@ -156,6 +120,7 @@
               
           {% endblock page %}
       </div>
+      
     {% comment %} </div> {% endcomment %}
     <script>
       function toggleBodyClass() {
