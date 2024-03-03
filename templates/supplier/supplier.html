@@ -1,10 +1,9 @@
-{% extends 'base.html' %}
-{% block head %}
+{% extends 'base.html' %} {% block head %}
 <script>
-document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("DOMContentLoaded", function () {
     // Get the element by ID
     var myElement = document.getElementById("supplier_ico");
-  
+
     // Check if the element exists
     if (myElement) {
       // Add the "active" class to the element
@@ -19,75 +18,64 @@ document.addEventListener("DOMContentLoaded", function() {
     filter = input.value.toUpperCase();
     table = document.getElementById("supplierTable");
     tr = table.getElementsByTagName("tr");
-  
-    for (i = 0; i < tr.length; i++) {
-        // Adjust the index to match the "Medicine Name" column (index 0)
-        td = tr[i].getElementsByTagName("td")[0];
-        if (td) {
-            txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
-            } else {
-                tr[i].style.display = "none";
-            }
-        }
-    }
-  }</script>
-{% endblock head %}
-{% block page %}
-<div class=" container-scroller" style="width: 100%; height:auto">
-    <!-- partial -->
-    <div class="content-wrapper">
-  <h3 class="page-heading mb-4">Supplier</h3>
-  <form class="forms-sample" method="post">
 
-      {% csrf_token %}
-      {{ form.as_p }}
-      <div class="form" style="text-align: center;width:100%">
-          <button type="submit" class="btn btn-primary"  style="width: 20%;">Submit</button>
-        </div>
-  </form>
-<div style="max-height: 70vh; display:block; overflow-y:auto">
-  <input type="text" id="searchInput" onkeyup="searchName()" placeholder="Search by Name ">
-<table class="table mt-3" id="supplierTable">
-    <thead>
-      <tr><th>
-        Supplier Name
-      </th>
-      <th>
-        Email
-      </th>
-      <th>
-        Address
-      </th>
-      <th>
-        Phone
-      </th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for suppliers in supplier %}
-        
-      
-      <tr>
-        <td>
-          {{suppliers.name}}
-        </td>
-        <td>
-          {{suppliers.email}}
-        </td>
-        <td>
-          {{suppliers.adddress}}
-        </td>
-        <td>
-          {{suppliers.phone}}
-        </td>
-        
-      </tr>
-      {% endfor %}
-        
-    </tbody>
-  </table></div>
-</div></div>
+    for (i = 0; i < tr.length; i++) {
+      // Adjust the index to match the "Medicine Name" column (index 0)
+      td = tr[i].getElementsByTagName("td")[0];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+</script>
+{% endblock head %} 
+
+{% block page %}
+<div class="container-scroller" style="width: 100%; height: auto">
+  <!-- partial -->
+  <div class="content-wrapper">
+    <h3 class="page-heading mb-4">Supplier</h3>
+    <form class="forms-sample" method="post">
+      {% csrf_token %} {{ form.as_p }}
+      <div class="form" style="text-align: center; width: 100%">
+        <button type="submit" class="btn btn-primary" style="width: 20%">
+          Submit
+        </button>
+      </div>
+    </form>
+    <hr>
+    <div>
+      <input type="text" class="form-control" id="searchInput" onkeyup="searchName()" placeholder="Search Suppliers by Name "/>
+    </div>
+    <hr>
+    <div style="max-height: 70vh; display: block; overflow-y: auto">
+      <table class="table mt-3" id="supplierTable">
+        <thead>
+          <tr>
+            <th>Supplier Name</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Phone</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for suppliers in supplier %}
+
+          <tr>
+            <td>{{suppliers.name}}</td>
+            <td>{{suppliers.email}}</td>
+            <td>{{suppliers.adddress}}</td>
+            <td>{{suppliers.phone}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 {% endblock page %}
-    

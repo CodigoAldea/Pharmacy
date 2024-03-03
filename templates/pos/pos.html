@@ -40,13 +40,14 @@
     <div class="content-wrapper">
       <h3 class="page-heading mb-4">POS </h3>
       {% comment %} button {% endcomment %}
+      {% if inv_id %}
         <form action="" method="get">
           <div class="form-group">
             <input type="hidden" name="new" value='new'>
             <button type="submit" class="btn btn-warning" style="height: 100%;width: 100%;">New Entry</button>
           </div>
         </form>
-      
+      {% endif %}
       
       {% if messages %}
         <div class="alert alert-danger" role="alert" style="font-size: larger; text-align: center;" >

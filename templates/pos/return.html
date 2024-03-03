@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% comment %} invoice and return page for making the changes to the invoice  {% endcomment %}
 {% block head %}
 <script>
 document.addEventListener("DOMContentLoaded", function() {
@@ -54,6 +55,8 @@ function searchName() {
   }
 }</script>
 {% endblock head %}
+
+
 {% block page %}
 <div class=" container-scroller" style="width: 100%;">
     <!-- partial -->
@@ -63,9 +66,25 @@ function searchName() {
     
     {% if inv_id %}
     <div style="padding: 25px; text-align: center">
-      Invoice no.{{inv_id}} <br>
-    <a class="btn btn-info" href="{% url 'pdf_view' %}" target="_blank" style="width: 20%;">View Invoice</a>
-    <a class="btn btn-info"  href="{% url 'pdf_download' %}" style="width: 20%;">Download Invoice</a>
+      <h3>Invoice no : {{inv_id}} </h3> <br>
+      <div class="container-fluid text-center">
+        <div class="row">
+          <div class="col mb-2">
+            <a class="btn btn-info" href="{% url 'pdf_view' %}" target="_blank" >View Invoice</a>
+          </div>
+          <div class="col mb-2">
+            <a class="btn btn-info"  href="{% url 'pdf_download' %}" >Download Invoice</a>
+          </div>
+          <div class="col">
+            <form action="" method="get">
+              <div class="form-group" style="text-align: center; ">
+                <input type="hidden" name="new" value='new'>
+                <button type="submit" class="btn btn-primary" >Go Back</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
   </div>
     <table class="table">
       <thead>
@@ -79,8 +98,6 @@ function searchName() {
         </tr>
       </thead>
       <tbody>
-          <form action="" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
             {% for i in invoices %}
         <tr> 
 
@@ -96,80 +113,90 @@ function searchName() {
       
   
   </tbody></table>  
-  <h3 style="text-align: end">total amount-Rs {{cust_inv.Total_Price}}</h3>
-  
-  {% if  return_invoices%}
-  <h3>Returned Medicines</h3>
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Medicine Name</th>
-        <th scope="col">Quantity</th>
-        <th scope="col">Unit</th>
-        <th scope="col">Batch</th>
-        <th scope="col">Total</th>
-        <th scope="col">Date</th>
-
-      </tr>
-    </thead>
-    <tbody>
+  <h4 style="text-align: end">Total Amount :</h4>
+  <h4 style="text-align: end">INR {{cust_inv.Total_Price}}</h4>
+  <hr>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
         <form action="" method="post" enctype="multipart/form-data">
           {% csrf_token %}
-          {% for i in return_invoices %}
-      <tr> 
-
-      <td>       
-        {{i.returned_item.name}} </td>
-      <td>{{i.quantity}}</td>
-      <td>{{i.unit}}</td>
-      <td>{{i.batch_id}}</td>
-      <td>Rs{{i.total_price_order}}</td>
-      <td>{{i.date}}</td>
-
+          <div class="form-group">
+            <label for="exampleDataList" class="form-label">Medicine</label>
+            <input class="form-control" type="text" list="datalistOptions2" id="exampleDataList" placeholder="Type to search..." name='medicine' required>
+            <datalist id="datalistOptions2">
+                
+                {% for i in invoices %}
+                <option value="{{i.medicine_name.name}}">
+                {% endfor %}
+            </datalist>
+          </div>
+          <div class="form-group">
+              <label for="return_qnty">Medicine Batch Id</label>
+            <input type="text" class="form-control p-input" id="return_batch" placeholder="" name="batch_id" required>
+          </div>
+          <div class="form-group">
+            <label for="return_qnty">Return Quantity</label>
+          <input type="number" class="form-control p-input" id="return_qnty" placeholder="" name="return" required>
+          </div>
+          <div class="form-group">
+            <select class="form-select" aria-label="Default select example" name="unit">
+              <option selected >Open this select menu</option>
+              <option value="piece">piece</option>
+              <option value="strip">strip</option>
+              <option value="box">box</option>
+            </select>
+          </div>
       
-      
-      </tr>
-      {% endfor %}
-    
+          <div class="form-group" style="text-align: center;">
+            <button type="submit" class="btn btn-lg btn-danger form-control" style="color: white;">Make Changes</button>
+          </div>
+        </form>
+      </div>
+      <div class="col">
+        {% if  return_invoices%}
+          <h3>Returned Medicines</h3>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Medicine Name</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Batch</th>
+                <th scope="col">Total</th>
+                <th scope="col">Date</th>
 
-</tbody></table>
-<h3 style="text-align: end">total amount to refund-Rs {{invoice_total_return}}</h3> 
-  {% endif %}
-    
-  <div class="form-group">
-    <label for="exampleDataList" class="form-label">Medicine</label>
-    <input class="form-control" type="text" list="datalistOptions2" id="exampleDataList" placeholder="Type to search..." name='medicine' required>
-    <datalist id="datalistOptions2">
-        
-        {% for i in medicines %}
-        <option value="{{i.name}}">
-        {% endfor %}
-    </datalist>
-</div>
-  <div class="form-group">
-    <label for="return_qnty">Medicine Batch Id</label>
-  <input type="text" class="form-control p-input" id="return_batch" placeholder="" name="batch_id" required></div>
-<div class="form-group">
-  <label for="return_qnty">Return Quantity</label>
-<input type="number" class="form-control p-input" id="return_qnty" placeholder="" name="return" required></div>
-  <div class="form-group">
-    <select class="form-select" aria-label="Default select example" name="unit">
-      <option selected >Open this select menu</option>
-      <option value="piece">piece</option>
-      <option value="strip">strip</option>
-      <option value="box">box</option>
-    </select>
-  </div>
+              </tr>
+            </thead>
+            <tbody>
+                {% for i in return_invoices %}
+              <tr> 
 
-  <div class="form-group" style="text-align: center;">
-    <button type="submit" class="btn btn-danger" style="width: 20%">Make Changes</button>
+              <td>       
+                {{i.returned_item.name}} </td>
+              <td>{{i.quantity}}</td>
+              <td>{{i.unit}}</td>
+              <td>{{i.batch_id}}</td>
+              <td>Rs{{i.total_price_order}}</td>
+              <td>{{i.date}}</td>
+
+              
+              
+              </tr>
+              {% endfor %}
+            
+
+        </tbody></table>
+        <h3 style="text-align: end">Total Amount to Refund </h3> 
+        <h3 style="text-align: end">INR {{invoice_total_return}}</h3> 
+        {% endif %}
+      </div>
+    </div>
   </div>
-  </form>
-  <form action="" method="get">
-  <div class="form-group" style="text-align: center; ">
-    <input type="hidden" name="new" value='new'>
-    <button type="submit" class="btn btn-primary" style="width: 20%">Go Back</button>
-  </div></form>
+    
+  <hr>
+  
+  
   {% else %}
   <div>
   <form class="forms-sample" method="post" style="flex-direction: column;">
@@ -182,9 +209,24 @@ function searchName() {
 </form></div>
 <div>
   <br>
+  {% comment %} updated the view of the form  {% endcomment %}
   <h3>Invoice History </h3>
   <h4 style="text-align: end;"><a href="{% url 'return_details' %}" class="btn btn-warning">View Return History</a></h4>
-  <div class='mb-3'style="margin-left:30%">  <input type="text" id="searchInput" onkeyup="searchName()" placeholder="Search by Name ">  <input style="margin-left: 2%;" type="text" id="searchInput2" onkeyup="searchMedicine()" placeholder="Search by phone number"></div>
+  <div class='mb-3'> 
+    <div class="row">
+      <div class="col"> 
+        <div class="mb-3">
+          <label for="searchInput" class="form-label">Search by Name</label>
+          <input class="form-control" type="text" id="searchInput" onkeyup="searchName()" placeholder="Search by Name ">  
+        </div>
+      </div>
+      <div class="col">
+        <div class="mb-3">
+          <label for="searchInput2" class="form-label">Search by phone number</label>
+          <input class="form-control" type="text" id="searchInput2" onkeyup="searchMedicine()" placeholder="Search by phone number">
+        </div>
+      </div>
+  </div>
 
   <div style="max-height: 70vh; display:block; overflow-y:auto">
   <table class="table" id="invoiceTable">
@@ -201,7 +243,7 @@ function searchName() {
     <tbody>
       {% for i in history_inv %}
       <tr>
-        <td><a href="{% url 'invoice_relocate' i.id %}">{{i.pos_order.order_no}}</a></td>
+        <td><a href="{% url 'invoice_relocate' i.id %}">{{i.id}}</a></td>
         <td>{{i.pos_order.date_entry}}</td>
         <td>{{i.pos_order.customer_id.name}}</td>
         <td>{{i.pos_order.customer_id.phone}}</td>

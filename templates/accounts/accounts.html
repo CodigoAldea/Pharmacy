@@ -174,7 +174,7 @@ document.addEventListener("DOMContentLoaded", function() {
     <tbody>
       {% for i in invoices %}
       <tr>
-        <td><a href="{% url 'invoice_relocate' i.id %}">{{i.pos_order.order_no}}</a></td>
+        <td><a href="{% url 'invoice_relocate' i.id %}">{{i.id}}</a></td>
         <td>{{i.pos_order.date_entry}}</td>
         <td>{{i.pos_order.customer_id.name}}</td>
         <td>{{i.pos_order.customer_id.phone}}</td>
